@@ -10,6 +10,13 @@ const GET_LOGO = gql`
             text
             color
             fontSize
+            lastUpdate
+            backgroundColor
+            borderColor
+            borderThickness
+            borderRadius
+            padding
+            margin
         }
     }
 `;
@@ -19,12 +26,24 @@ const UPDATE_LOGO = gql`
         $id: String!,
         $text: String!,
         $color: String!,
-        $fontSize: Int!) {
+        $fontSize: Int!,
+        $backgroundColor: String!,
+        $borderColor: String!,
+        $borderThickness: Int!,
+        $borderRadius: Int!,
+        $padding: Int!,
+        $margin: Int!) {
             updateLogo(
                 id: $id,
                 text: $text,
                 color: $color,
-                fontSize: $fontSize) {
+                fontSize: $fontSize,
+                backgroundColor: $backgroundColor,
+                borderColor: $borderColor,
+                borderThickness: $borderThickness,
+                borderRadius: $borderRadius,
+                padding: $padding,
+                margin: $margin) {
                     lastUpdate
                 }
         }
@@ -33,7 +52,7 @@ const UPDATE_LOGO = gql`
 class EditLogoScreen extends Component {
 
     render() {
-        let text, color, fontSize;
+        let text, color, fontSize, backgroundColor, borderColor, borderThickness, borderRadius, padding, margin;
         return (
             <Query query={GET_LOGO} variables={{ logoId: this.props.match.params.id }}>
                 {({ loading, error, data }) => {
@@ -54,29 +73,79 @@ class EditLogoScreen extends Component {
                                         <div className="panel-body">                                            
                                             <form onSubmit={e => {
                                                 e.preventDefault();
-                                                updateLogo({ variables: { id: data.logo._id, text: text.value, color: color.value, fontSize: parseInt(fontSize.value) } });
-                                                text.value = "";
-                                                color.value = "";
-                                                fontSize.value = "";
+                                                updateLogo({ variables: { id: data.logo._id, text: text.value,
+                                                    color: color.value,
+                                                    fontSize: parseInt(fontSize.value),
+                                                    backgroundColor: backgroundColor.value,
+                                                    borderColor: borderColor.value,
+                                                    borderThickness: parseInt(borderThickness.value),
+                                                    borderRadius: parseInt(borderRadius.value),
+                                                    padding: parseInt(padding.value),
+                                                    margin: parseInt(margin.value) } });
+                                                    text.value = "";
+                                                    color.value = "";
+                                                    fontSize.value = "";
+                                                    backgroundColor.value = "";
+                                                    borderColor.value = "";
+                                                    borderThickness.value = "";
+                                                    borderRadius.value = "";
+                                                    padding.value = "";
+                                                    margin.value = "";
                                             }}>
                                                 <div className="form-group">
-                                                    <label htmlFor="text">Text:</label>
-                                                    <input type="text" className="form-control" name="text" ref={node => {
-                                                        text = node;
-                                                    }} placeholder="Text" defaultValue={data.logo.text} />
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="color">Color:</label>
-                                                    <input type="color" className="form-control" name="color" ref={node => {
-                                                        color = node;
-                                                    }} placeholder="Color" defaultValue={data.logo.color} />
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="fontSize">Font Size:</label>
-                                                    <input type="text" className="form-control" name="fontSize" ref={node => {
-                                                        fontSize = node;
-                                                    }} placeholder="Font Size" defaultValue={data.logo.fontSize} />
-                                                </div>
+                                        <label htmlFor="text">Text:</label>
+                                        <input type="text" className="form-control" name="text" ref={node => {
+                                            text = node;
+                                        }} placeholder="Text" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="color">Color:</label>
+                                        <input type="color" className="form-control" name="color" ref={node => {
+                                            color = node;
+                                        }} placeholder="Color" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="fontSize">Font Size:</label>
+                                        <input type="number" className="form-control" name="fontSize" ref={node => {
+                                            fontSize = node;
+                                        }} placeholder="Font Size" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="backgroundColor">Background Color:</label>
+                                        <input type="color" className="form-control" name="backgroundColor" ref={node => {
+                                            backgroundColor = node;
+                                        }} placeholder="Background Color" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="borderColor">Border Color:</label>
+                                        <input type="color" className="form-control" name="borderColor" ref={node => {
+                                            borderColor = node;
+                                        }} placeholder="Border Color" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="borderThickness">Border Thickness:</label>
+                                        <input type="number" className="form-control" name="borderThickness" ref={node => {
+                                            borderThickness = node;
+                                        }} placeholder="Border Thickness" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="borderRadius">Border Radius:</label>
+                                        <input type="number" className="form-control" name="borderRadius" ref={node => {
+                                            borderRadius = node;
+                                        }} placeholder="Border Radius" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="padding">Padding:</label>
+                                        <input type="number" className="form-control" name="padding" ref={node => {
+                                            padding = node;
+                                        }} placeholder="Padding" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="margin">Margin:</label>
+                                        <input type="number" className="form-control" name="margin" ref={node => {
+                                            margin = node;
+                                        }} placeholder="Margin" />
+                                    </div>
                                                 <button type="submit" className="btn btn-success">Submit</button>
                                             </form>
                                             {loading && <p>Loading...</p>}
