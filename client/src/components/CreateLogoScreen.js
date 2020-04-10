@@ -127,7 +127,7 @@ class CreateLogoScreen extends Component {
                                     <button type="submit" className="btn btn-success">Submit</button>
                                 </form>
                                 {loading && <p>Loading...</p>}
-                                {error && <p>Error :( Please try again</p>}
+                                {error && <p>{error.message}</p>}
                             </div>
                         </div>
                     </div>

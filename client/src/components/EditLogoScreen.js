@@ -85,71 +85,65 @@ class EditLogoScreen extends Component {
                                                     text.value = "";
                                                     color.value = "";
                                                     fontSize.value = "";
-                                                    backgroundColor.value = "";
-                                                    borderColor.value = "";
-                                                    borderThickness.value = "";
-                                                    borderRadius.value = "";
-                                                    padding.value = "";
-                                                    margin.value = "";
                                             }}>
                                                 <div className="form-group">
                                         <label htmlFor="text">Text:</label>
                                         <input type="text" className="form-control" name="text" ref={node => {
                                             text = node;
-                                        }} placeholder="Text" />
+                                        }} placeholder="Text" defaultValue={data.logo.text} />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="color">Color:</label>
                                         <input type="color" className="form-control" name="color" ref={node => {
                                             color = node;
-                                        }} placeholder="Color" />
+                                        }} placeholder="Color" defaultValue={data.logo.color} />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="fontSize">Font Size:</label>
                                         <input type="number" className="form-control" name="fontSize" ref={node => {
                                             fontSize = node;
-                                        }} placeholder="Font Size" />
+                                        }} placeholder="Font Size" defaultValue = {data.logo.fontSize} />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="backgroundColor">Background Color:</label>
                                         <input type="color" className="form-control" name="backgroundColor" ref={node => {
                                             backgroundColor = node;
-                                        }} placeholder="Background Color" />
+                                        }} placeholder="Background Color" defaultValue = {data.logo.backgroundColor} />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="borderColor">Border Color:</label>
                                         <input type="color" className="form-control" name="borderColor" ref={node => {
                                             borderColor = node;
-                                        }} placeholder="Border Color" />
+                                        }} placeholder="Border Color" defaultValue = {data.logo.borderColor} />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="borderThickness">Border Thickness:</label>
                                         <input type="number" className="form-control" name="borderThickness" ref={node => {
                                             borderThickness = node;
-                                        }} placeholder="Border Thickness" />
+                                        }} placeholder="Border Thickness" defaultValue = {data.logo.borderThickness}/>
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="borderRadius">Border Radius:</label>
                                         <input type="number" className="form-control" name="borderRadius" ref={node => {
                                             borderRadius = node;
-                                        }} placeholder="Border Radius" />
+                                        }} placeholder="Border Radius" defaultValue = {data.logo.borderRadius} />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="padding">Padding:</label>
                                         <input type="number" className="form-control" name="padding" ref={node => {
                                             padding = node;
-                                        }} placeholder="Padding" />
+                                        }} placeholder="Padding" defaultValue = {data.logo.padding} />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="margin">Margin:</label>
                                         <input type="number" className="form-control" name="margin" ref={node => {
                                             margin = node;
-                                        }} placeholder="Margin" />
+                                        }} placeholder="Margin" defaultValue = {data.logo.margin} />
                                     </div>
                                                 <button type="submit" className="btn btn-success">Submit</button>
                                             </form>
                                             {loading && <p>Loading...</p>}
-                                            {error && <p>Error :( Please try again</p>}
+                                            {error && <p>{error.message}</p>}
                                         </div>
                                     </div>
                                 </div>
