@@ -33,7 +33,11 @@ const DELETE_LOGO = gql`
 class ViewLogoScreen extends Component {
 
     render() {
+        let logo;
         return (
+            <div className="container">
+                <div className="row">
+            <div className="col">
             <Query pollInterval={500} query={GET_LOGO} variables={{ logoId: this.props.match.params.id }}>
                 {({ loading, error, data }) => {
                     if (loading) return 'Loading...';
@@ -93,6 +97,40 @@ class ViewLogoScreen extends Component {
                     );
                 }}
             </Query>
+            </div>
+
+            <Query query={GET_LOGO} variables={{ logoId: this.props.match.params.id }}>
+                {({ loading, error, data }) => {
+                    if (loading) return 'Loading...';
+                    if (error) return `Error! ${error.message}`;
+
+                    return ( 
+                        <div className="col" style={{overflow: 'auto'}}>
+                            <div ref={node => {
+                            logo = node;
+                        }} style= {
+                                {
+                                    fontSize: data.logo.fontSize,
+                                    backgroundColor: data.logo.backgroundColor,
+                                    borderColor: data.logo.borderColor,
+                                    borderRadius: data.logo.borderRadius + "%",
+                                    borderWidth: data.logo.borderThickness + "px",
+                                    padding: data.logo.padding + "px",
+                                    margin: data.logo.margin + "px",
+                                    borderStyle: "solid",
+                                    width: "max-content",
+                                    height: "max-content"
+                                }
+                            }>
+                                <pre style = {{color: data.logo.color}} id ="pretext" >{data.logo.text}</pre>
+                            
+                            </div>
+                        </div>
+                    )
+                }}
+            </Query>
+            </div>
+            </div>
         );
     }
 }

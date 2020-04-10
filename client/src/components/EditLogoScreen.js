@@ -53,6 +53,17 @@ class EditLogoScreen extends Component {
 
     render() {
         let text, color, fontSize, backgroundColor, borderColor, borderThickness, borderRadius, padding, margin, logo, submit;
+        let updateLogoView = () => {
+            logo.childNodes[0].innerHTML = text.value;
+            logo.style.backgroundColor = backgroundColor.value;
+            logo.childNodes[0].style.color = color.value;
+            logo.style.fontSize = fontSize.value + "px";
+            logo.style.borderColor = borderColor.value;
+            logo.style.borderWidth = borderThickness.value + "px";
+            logo.style.borderRadius = borderRadius.value + "%";
+            logo.style.padding = padding.value + "px";
+            logo.style.margin = margin.value + "px";
+        }
         return (
             <div className="container">
                 <div className="row">
@@ -74,7 +85,17 @@ class EditLogoScreen extends Component {
                                         </h3>
                                         </div>
                                         <div className="panel-body">                                            
-                                            <form onSubmit={e => {
+                                            <form onChange = {
+                                                () => {
+                                                    updateLogoView();
+                                                    if (text.value === "" || fontSize.value === "" || borderThickness.value === "" || borderRadius.value === "" ||
+                                                    padding.value === "" || margin.value === "") {
+                                                        submit.disabled = true;
+                                                    } else {
+                                                        submit.disabled = false;
+                                                    }
+                                                }
+                                            }   onSubmit={e => {
                                                 e.preventDefault();
                                                 updateLogo({ variables: { id: data.logo._id, text: text.value,
                                                     color: color.value,
@@ -93,12 +114,7 @@ class EditLogoScreen extends Component {
                                         <label htmlFor="text">Text:</label>
                                         <input onChange = {
                                             () => {
-                                                logo.childNodes[0].innerHTML = text.value;
-                                                if (text.value === "") {
-                                                    submit.disabled = true;
-                                                } else {
-                                                    submit.disable = false;
-                                                }
+                                                updateLogoView();
                                             }
                                         } type="text" className="form-control" name="text" ref={node => {
                                             text = node;
@@ -107,7 +123,7 @@ class EditLogoScreen extends Component {
                                     <div className="form-group">
                                         <label htmlFor="color">Color:</label>
                                         <input onChange = {
-                                            () => {logo.childNodes[0].style.color = color.value;}
+                                            () => {updateLogoView();}
                                         } type="color" className="form-control" name="color" ref={node => {
                                             color = node;
                                         }} placeholder="Color" defaultValue={data.logo.color} />
@@ -115,20 +131,15 @@ class EditLogoScreen extends Component {
                                     <div className="form-group">
                                         <label htmlFor="fontSize">Font Size:</label>
                                         <input onChange = {
-                                            () => {logo.style.fontSize = fontSize.value + "px";
-                                            if (fontSize.value === "") {
-                                                submit.disabled = true;
-                                            } else {
-                                                submit.disable = false;
-                                            }}
-                                        } type="number" className="form-control" name="fontSize" ref={node => {
+                                            () => {updateLogoView();}
+                                        } type="range" min="2" max = "111" className="form-control" name="fontSize" ref={node => {
                                             fontSize = node;
                                         }} placeholder="Font Size" defaultValue = {data.logo.fontSize} />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="backgroundColor">Background Color:</label>
                                         <input onChange = {
-                                            () => {logo.style.backgroundColor = backgroundColor.value;}
+                                            () => {updateLogoView();}
                                         } type="color" className="form-control" name="backgroundColor" ref={node => {
                                             backgroundColor = node;
                                         }} placeholder="Background Color" defaultValue = {data.logo.backgroundColor} />
@@ -136,11 +147,7 @@ class EditLogoScreen extends Component {
                                     <div className="form-group">
                                         <label htmlFor="borderColor">Border Color:</label>
                                         <input onChange = {
-                                            () => {logo.style.borderColor = borderColor.value; if (text.value === "") {
-                                                submit.disabled = true;
-                                            } else {
-                                                submit.disable = false;
-                                            }}
+                                            () => {updateLogoView();}
                                         }type="color" className="form-control" name="borderColor" ref={node => {
                                             borderColor = node;
                                         }} placeholder="Border Color" defaultValue = {data.logo.borderColor} />
@@ -148,32 +155,32 @@ class EditLogoScreen extends Component {
                                     <div className="form-group">
                                         <label htmlFor="borderThickness">Border Thickness:</label>
                                         <input onChange = {
-                                            () => {logo.style.borderWidth = borderThickness.value + "px";}
-                                        }type="number" className="form-control" name="borderThickness" ref={node => {
+                                            () => {updateLogoView();}
+                                        }type="range" min="0" max = "111" className="form-control" name="borderThickness" ref={node => {
                                             borderThickness = node;
                                         }} placeholder="Border Thickness" defaultValue = {data.logo.borderThickness}/>
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="borderRadius">Border Radius:</label>
                                         <input onChange = {
-                                            () => {logo.style.borderRadius = borderRadius.value + "%";}
-                                        } type="number" className="form-control" name="borderRadius" ref={node => {
+                                            () => {updateLogoView();}
+                                        } type="range" min="0" max = "50" className="form-control" name="borderRadius" ref={node => {
                                             borderRadius = node;
                                         }} placeholder="Border Radius" defaultValue = {data.logo.borderRadius} />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="padding">Padding:</label>
                                         <input onChange = {
-                                            () => {logo.style.padding = padding.value + "px";}
-                                        } type="number" className="form-control" name="padding" ref={node => {
+                                            () => {updateLogoView();}
+                                        } type="range" min="0" max = "111" className="form-control" name="padding" ref={node => {
                                             padding = node;
                                         }} placeholder="Padding" defaultValue = {data.logo.padding} />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="margin">Margin:</label>
                                         <input onChange = {
-                                            () => {logo.style.margin = margin.value + "px";}
-                                        } type="number" className="form-control" name="margin" ref={node => {
+                                            () => {updateLogoView();}
+                                        } type="range" min="0" max = "111" className="form-control" name="margin" ref={node => {
                                             margin = node;
                                         }} placeholder="Margin" defaultValue = {data.logo.margin} />
                                     </div>

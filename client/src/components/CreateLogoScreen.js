@@ -34,20 +34,44 @@ const ADD_LOGO = gql`
 class CreateLogoScreen extends Component {
 
     render() {
-        let text, color, fontSize, backgroundColor, borderColor, borderThickness, borderRadius, padding, margin;
+        let text, color, fontSize, backgroundColor, borderColor, borderThickness, borderRadius, padding, margin, logo, submit;
+        let updateLogo = () => {
+            logo.childNodes[0].innerHTML = text.value;
+            logo.style.backgroundColor = backgroundColor.value;
+            logo.childNodes[0].style.color = color.value;
+            logo.style.fontSize = fontSize.value + "px";
+            logo.style.borderColor = borderColor.value;
+            logo.style.borderWidth = borderThickness.value + "px";
+            logo.style.borderRadius = borderRadius.value + "%";
+            logo.style.padding = padding.value + "px";
+            logo.style.margin = margin.value + "px";
+        }
         return (
+            <div className="container">
+                <div className="row">
             <Mutation mutation={ADD_LOGO} onCompleted={() => this.props.history.push('/')}>
                 {(addLogo, { loading, error }) => (
-                    <div className="container">
+                    <div className="container col">
                         <div className="panel panel-default">
                             <div className="panel-heading">
-                                <h4><Link to="/">Home</Link></h4>
+                                <h4><Link className="btn btn-primary" to="/">Home</Link></h4>
                                 <h3 className="panel-title">
                                     Create Logo
                             </h3>
                             </div>
                             <div className="panel-body">
-                                <form onSubmit={e => {
+                                <form onChange = {
+                                                () => {
+                                                    updateLogo();
+                                                    if (text.value === "" || fontSize.value === "" || borderThickness.value === "" || borderRadius.value === "" ||
+                                                    padding.value === "" || margin.value === "") {
+                                                        submit.disabled = true;
+                                                    } else {
+                                                        submit.disabled = false;
+                                                    }
+                                                }
+                                            }
+                                    onSubmit={e => {
                                     e.preventDefault();
                                     addLogo({ variables: {
                                             text: text.value,
@@ -72,59 +96,79 @@ class CreateLogoScreen extends Component {
                                 }}>
                                     <div className="form-group">
                                         <label htmlFor="text">Text:</label>
-                                        <input type="text" className="form-control" name="text" ref={node => {
+                                        <input onChange = {
+                                            () => {
+                                                updateLogo();
+                                            }
+                                        } type="text" className="form-control" name="text" ref={node => {
                                             text = node;
                                         }} placeholder="Text" />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="color">Color:</label>
-                                        <input type="color" className="form-control" name="color" ref={node => {
+                                        <input onChange = {
+                                            () => {updateLogo()}
+                                        } type="color" className="form-control" name="color" ref={node => {
                                             color = node;
-                                        }} placeholder="Color" />
+                                        }} placeholder="Color"  />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="fontSize">Font Size:</label>
-                                        <input type="number" className="form-control" name="fontSize" ref={node => {
+                                        <input onChange = {
+                                            () => {updateLogo()}
+                                        } type="range" min="2" max = "111" className="form-control" name="fontSize" ref={node => {
                                             fontSize = node;
-                                        }} placeholder="Font Size" />
+                                        }} placeholder="Font Size"  />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="backgroundColor">Background Color:</label>
-                                        <input type="color" className="form-control" name="backgroundColor" ref={node => {
+                                        <input onChange = {
+                                            () => {updateLogo()}
+                                        } type="color" className="form-control" name="backgroundColor" ref={node => {
                                             backgroundColor = node;
                                         }} placeholder="Background Color" />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="borderColor">Border Color:</label>
-                                        <input type="color" className="form-control" name="borderColor" ref={node => {
+                                        <input onChange = {
+                                            () => {updateLogo()}
+                                        }type="color" className="form-control" name="borderColor" ref={node => {
                                             borderColor = node;
-                                        }} placeholder="Border Color" />
+                                        }} placeholder="Border Color"  />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="borderThickness">Border Thickness:</label>
-                                        <input type="number" className="form-control" name="borderThickness" ref={node => {
+                                        <input onChange = {
+                                            () => {updateLogo()}
+                                        }type="range" min="0" max = "111" className="form-control" name="borderThickness" ref={node => {
                                             borderThickness = node;
-                                        }} placeholder="Border Thickness" />
+                                        }} placeholder="Border Thickness"/>
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="borderRadius">Border Radius:</label>
-                                        <input type="number" className="form-control" name="borderRadius" ref={node => {
+                                        <input onChange = {
+                                            () => {updateLogo()}
+                                        } type="range" min="0" max = "50" className="form-control" name="borderRadius" ref={node => {
                                             borderRadius = node;
-                                        }} placeholder="Border Radius" />
+                                        }} placeholder="Border Radius"  />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="padding">Padding:</label>
-                                        <input type="number" className="form-control" name="padding" ref={node => {
+                                        <input onChange = {
+                                            () => {updateLogo()}
+                                        } type="range" min="0" max = "111" className="form-control" name="padding" ref={node => {
                                             padding = node;
-                                        }} placeholder="Padding" />
+                                        }} placeholder="Padding"  />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="margin">Margin:</label>
-                                        <input type="number" className="form-control" name="margin" ref={node => {
+                                        <input onChange = {
+                                            () => {updateLogo()}
+                                        } type="range" min="0" max = "111" className="form-control" name="margin" ref={node => {
                                             margin = node;
-                                        }} placeholder="Margin" />
+                                        }} placeholder="Margin"  />
                                     </div>
-                                    <button type="submit" className="btn btn-success">Submit</button>
+                                    <button ref = {node => {submit = node}} type="submit" className="btn btn-success">Submit</button>
                                 </form>
                                 {loading && <p>Loading...</p>}
                                 {error && <p>{error.message}</p>}
@@ -133,6 +177,26 @@ class CreateLogoScreen extends Component {
                     </div>
                 )}
             </Mutation>
+         
+                
+            <div className="col" style={{overflow: 'auto'}}>
+                <div ref={node => {
+                logo = node;
+            }} style= {
+                    {
+                        backgroundColor: "#000000",
+                        borderColor: "#000000",
+                        borderStyle: "solid",
+                        width: "max-content",
+                        height: "max-content"
+                    }
+                }>
+                    <pre style = {{color: "#000000"}}id ="pretext" ></pre>
+                
+                </div>
+            </div>
+            </div>
+            </div>
         );
     }
 }
