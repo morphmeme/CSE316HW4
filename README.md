@@ -1,3 +1,5 @@
+TO TA: please add db folder inside server
+
 ADD QUERY
 mutation {
   addLogo (
